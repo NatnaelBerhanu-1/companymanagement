@@ -37,6 +37,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/'];
+  const dispatcherPages = (['/admin', '/add'].includes(to.path));
+  console.log(to.path, dispatcherPages);
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
@@ -44,6 +46,10 @@ router.beforeEach((to, from, next) => {
     return next({
       path: '/login',
       query: { returnUrl: to.path }
+    });
+  }else if(!dispatcherPages && window.localStorage.getItem('role') === "dispatcher"){
+    return next({
+      path: '/admin'
     });
   }
 

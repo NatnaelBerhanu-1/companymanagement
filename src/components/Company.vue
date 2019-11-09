@@ -18,9 +18,9 @@
                     <tr>
                         <th>No</th>
                         <th>Company Name</th>
-                        <th>P.O.Box</th>
                         <th>City</th>
                         <th>Services</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -49,12 +49,16 @@
                     <tr v-for="company in companies" v-bind:key="company.id">
                     <th scope="row">1</th>
                     <td>{{ company.name }}</td>
-                    <td>{{ company.pobox }}</td>
                     <td>{{ company.city }}</td>
-                    <td>{{ company.services}}</td>
+                    <td>{{ company.services }}</td>
+                    <td v-bind:class="company.status === 'pending' ? 'badge-warning' : 'badge-success'" class="badge p-1 ml-3 mt-3">{{ company.status }}</td>
                     <td>
-                        <font-awesome-icon class="text-danger mr-4 delete-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
-                        <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary" icon="file"/></router-link> </td>
+                        <div v-if="show()">
+                            <font-awesome-icon class="text-danger mr-4 action-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
+                            <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link>
+                            <font-awesome-icon class="text-success ml-4 action-icon" v-if="company.status === 'pending'" v-on:click="activateCompany(company.id)" icon="toggle-on"/>
+                        </div>
+                    </td>
                     </tr>
                 </tbody>
             </table>
@@ -82,6 +86,10 @@ export default {
         }
     },
     methods: {
+        show() {
+            console.log(window.localStorage.getItem('role'));
+            return window.localStorage.getItem('role') === 'admin';
+        },
         filterTable(newVal) {
             this.$emit('filter', newVal);
             this.filteredCompany = [];
@@ -98,6 +106,9 @@ export default {
         },
         removeCompany(id) {
             this.$emit('remove-company', id);
+        },
+        activateCompany(id) {
+            this.$emit('activate-company', id);
         }
     }
 }
@@ -110,7 +121,7 @@ export default {
         display: none;
     }
 
-    .delete-icon{
+    .action-icon{
         cursor: pointer;
     }
 

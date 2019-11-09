@@ -1,7 +1,7 @@
 <template>
   <div>
       <Header/>
-      <Company v-bind:companies = "companies" v-on:filter="filterTable" v-on:resetFilter="resetFilter" v-on:remove-company="removeCompany"/>
+      <Company v-bind:companies = "companies" v-on:filter="filterTable" v-on:resetFilter="resetFilter" v-on:activate-company="activateCompany" v-on:remove-company="removeCompany"/>
   </div>
 </template>
 
@@ -47,6 +47,21 @@ export default {
             if(confirmed){
                 Axios.delete('http://localhost/companymgmt/public/index.php/api/company/delete/'+id)
                 .then(res => this.companies = this.companies.filter(el => el.id != id))
+                .catch(error => console.log(error))
+            }
+        },
+        activateCompany(id){
+            const confirmed = confirm("do you wan't to activate this company?");
+            if(confirmed){
+                Axios.put('http://localhost/companymgmt/public/index.php/api/company/activate',
+                {
+                    id: id
+                }
+                )
+                .then(res => {
+                    const index = this.companies.findIndex(obj => obj.id == id)
+                    this.companies[index].status = 'active';
+                    })
                 .catch(error => console.log(error))
             }
         }

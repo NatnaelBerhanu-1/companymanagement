@@ -21,6 +21,7 @@ export default {
     methods: {
         logout() {
             window.localStorage.removeItem('user');
+            window.localStorage.removeItem('role');
             this.$router.push({path: '/login'});
         }
     }

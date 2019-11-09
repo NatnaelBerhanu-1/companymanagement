@@ -118,6 +118,7 @@ export default {
     methods: {
         addCompany(e) {
             e.preventDefault();
+            const status = window.localStorage.getItem('role') === 'dispatcher' ? 'pending' : 'active';
             const newCompany = {
                 name: this.name,
                 city: this.city,
@@ -128,8 +129,11 @@ export default {
                 direction: this.direction,
                 houseNum: this.houseNum,
                 phoneNum: this.phoneNum,
-                pobox: this.pobox
+                pobox: this.pobox,
+                status: status
             }
+
+        console.log(newCompany);
         
         axios.post(
             'http://localhost/companymgmt/public/index.php/api/company/add',
