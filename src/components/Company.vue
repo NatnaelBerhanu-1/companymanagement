@@ -46,19 +46,46 @@
                         </td>
                         
                     </tr>
-                    <tr v-for="company in companies" v-bind:key="company.id">
+                    <tr v-for="company in companies" v-bind:key="company.id" @click="rowClicked(company)" data-toggle="modal" data-target="#exampleModalLong">
                     <th scope="row">1</th>
-                    <td>{{ company.name }}</td>
+                    <td >{{ company.name }}</td>
                     <td>{{ company.pobox }}</td>
                     <td>{{ company.city }}</td>
                     <td>{{ company.services}}</td>
                     <td>
-                        <font-awesome-icon class="text-danger mr-4 delete-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
-                        <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary" icon="file"/></router-link> </td>
+                        <font-awesome-icon class="text-danger mr-4 action-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
+                        <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link> </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <h3 class="text-primary">{{displayCompany.name}}</h3>
+          <strong> serivces</strong><br/>{{displayCompany.services}}<br/>
+          <strong> ketema</strong><br/>{{displayCompany.kifle_ketema}}<br/>
+          <strong> city</strong><br/>{{displayCompany.city}}<br/>
+          <strong> sefer</strong><br/>{{displayCompany.sefer}}<br/>
+          <strong> kebele</strong><br/>{{displayCompany.kebele}}<br/>
+          <strong> direction</strong> <br/>{{displayCompany.direction}}<br/>
+          <strong> houseNum </strong> <br/>{{displayCompany.house_num}}<br/>
+         <strong> phoneNum </strong><br/>{{displayCompany.phone_num}}<br/>
+          <strong> pobox </strong><br/>{{displayCompany.pobox}}<br/>
+          
+
+      </div>
+      
+    </div>
+  </div>
+</div>
   </div>
 </template>
 
@@ -78,7 +105,8 @@ export default {
     data() {
         return {
             searchText: '',
-            filteredCompany: []
+            filteredCompany: [],
+            displayCompany:{}
         }
     },
     methods: {
@@ -98,6 +126,10 @@ export default {
         },
         removeCompany(id) {
             this.$emit('remove-company', id);
+        },
+        rowClicked(company){
+            this.displayCompany = company;
+            console.log(company);
         }
     }
 }
@@ -110,8 +142,8 @@ export default {
         display: none;
     }
 
-    .delete-icon{
-        cursor: pointer;
+    .action-icon{
+        cursor: default;
     }
 
     .auto-complete:hover{
@@ -132,6 +164,7 @@ export default {
 
     tr{
         max-height: 50px !important;
+        cursor: pointer;
     }
 
 </style>
