@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Header/>
+      <Header v-bind:add_link="'/add/company'"/>
       <Company v-bind:companies = "companies" v-on:filter="filterTable" v-on:resetFilter="resetFilter" v-on:activate-company="activateCompany" v-on:remove-company="removeCompany"/>
   </div>
 </template>
@@ -27,11 +27,11 @@ export default {
         filterTable(newVal) {
             console.log(newVal);
             if(newVal.title === "name"){
-                this.companies = this.companies.filter(el => el.name.includes(newVal.selectedVal));
+                this.companies = this.companies.filter(el => el.name.toLowerCase().includes(newVal.selectedVal.toLowerCase()));
             }else if(newVal.title === "city"){
-                this.companies = this.companies.filter(el => el.city.includes(newVal.selectedVal));
+                this.companies = this.companies.filter(el => el.city.toLowerCase().includes(newVal.selectedVal.toLowerCase()));
             }else if(newVal.title === "services"){
-                this.companies = this.companies.filter(el => el.services.includes(newVal.selectedVal));                
+                this.companies = this.companies.filter(el => el.services.toLowerCase().includes(newVal.selectedVal.toLowerCase()));                
             }else if(newVal.title === "status"){
                 this.companies = this.companies.filter(el => el.status == newVal.selectedVal);                
             }

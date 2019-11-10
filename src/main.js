@@ -5,9 +5,11 @@ import jQuery from 'jquery';
 import Admin from './components/Admin.vue';
 import Login from './components/Login.vue';
 import EditCompany from './components/EditCompany.vue';
-import Dispatcher from './components/Dispatcher.vue';
-import Add from './components/Add.vue';
+import EditUser from './components/EditUser.vue';
+import AddCompany from './components/AddCompany.vue';
+import AddUser from './components/AddUser.vue';
 import Home from './components/Home.vue';
+import User from './components/Users.vue';
 import fontawesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
@@ -24,10 +26,12 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 const routes = [
   {path: '/', component: Home},
   {path: '/login', component: Login},
-  {path: '/dispatcher', component: Dispatcher},
   {path: '/admin', component: Admin},
-  {path: '/add', component: Add},
-  {path: '/edit/:id', component: EditCompany}
+  {path: '/add/company', component: AddCompany},
+  {path: '/add/user', component: AddUser},
+  {path: '/user', component: User},
+  {path: '/edit/company/:id', component: EditCompany},
+  {path: '/edit/user/:id', component: EditUser}
 ]
 
 const router = new VueRouter({
@@ -37,7 +41,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/'];
-  const dispatcherPages = (['/admin', '/add'].includes(to.path));
+  const dispatcherPages = (['/admin', '/add/company'].includes(to.path));
   console.log(to.path, dispatcherPages);
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');

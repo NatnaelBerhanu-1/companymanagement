@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-      <Header/>
-      <div class="container bg-white shadow p-3 mb-5" id="add-company">
+      <Header v-bind:add_link="''"/>
+      <div class="container bg-white shadow p-3 mb-5 add-company">
           <h3 class="pt-3">Add Company</h3>
           <div class="alert alert-success d-none" id="alert" role="alert">
             added successfully!!!
@@ -138,7 +138,13 @@ export default {
         axios.post(
             'http://localhost/companymgmt/public/index.php/api/company/add',
             newCompany)
-            .then(res => {if(res.data.message === "success") document.getElementById("alert").classList.remove("d-none");document.getElementById("alert").classList.add("d-block"); console.log(res.data)})
+            .then(res => {
+                if(res.data.message === "success") {
+                    document.getElementById("alert").classList.remove("d-none");
+                    document.getElementById("alert").classList.add("d-block");     
+                }
+                console.log(res.data);
+                })
             .catch(error => console.log(error));
 
         this.name = this.city = this.services = this.ketema = this.sefer = this.kebele = this.direction = this.houseNum = this.phoneNum = this.pobox = '';
@@ -148,11 +154,11 @@ export default {
 </script>
 
 <style scoped>
-#add-company{
-    width: 900px;
+.add-company{
+    max-width: 900px;
 }
 
-#add-company form {
+.add-company form {
     width: 100%;
 }
 

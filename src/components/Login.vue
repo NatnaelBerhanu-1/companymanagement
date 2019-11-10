@@ -1,7 +1,7 @@
 <template>
       <div class="text-center">
           <div class="form-holder p-5 shadow">
-            <h1>Login</h1>
+            <h1 class="p-2">Login</h1>
             <p class="text-danger text-bold d-none" id="login-alert"><strong> login failed try again </strong></p>
             <form @submit="login" class="" id="login-form">
               <div class="form-group" >

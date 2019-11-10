@@ -1,6 +1,5 @@
 <template>
   <div class="container mt-4">
-
       <div class="row bg-white shadow-sm p-3">
           <h3 class="mb-4 col-md-12">Company List</h3>
           <div class="col-md-3">
@@ -16,13 +15,13 @@
                 <div class="table-holder">
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <input v-on:input="filterCompany" v-on:focus="removeFilter" v-model="searchText" type="text" class="form-control search-input" placeholder="search by name . . . .">
-                            <div class="auto-complete position-absolute bg-white">
-                                <div v-for="company in filteredCompany" v-on:click="filterTable(newVal = {selectedVal: company.name, title:'name'})" v-bind:key="company.id" class="pl-2 p-1 rounded-bottom  border-right border-left border-bottom">{{company.name}}</div>
-                            </div>
-                            
+                            <form @submit="filterCompanies">
+                                <input v-on:input="filterCompany" v-on:focus="removeFilter" v-model="searchText" type="text" class="form-control search-input" placeholder="search by name . . . .">
+                                <div class="auto-complete position-absolute bg-white">
+                                    <div v-for="company in filteredCompany" v-on:click="filterTable(newVal = {selectedVal: company.name, title:'name'})" v-bind:key="company.id" class="pl-2 p-1 rounded-bottom  border-right border-left border-bottom">{{company.name}}</div>
+                                </div>
+                            </form>
                         </div>
-                        
                     </div>
                     
                     <table class="table table-striped table-bordered table-responsive-xl">
@@ -42,11 +41,11 @@
                                 <td>{{ company.name }}</td>
                                 <td>{{ company.city }}</td>
                                 <td>{{ company.services.slice(0, 25) }}</td>
-                                <td v-bind:class="company.status === 'pending' ? 'badge-warning' : 'badge-success'" class="badge p-1 ml-3 mt-3">{{ company.status }}</td>
+                                <td> <span  v-bind:class="company.status === 'pending' ? 'badge-warning' : 'badge-success'" class="badge">{{ company.status }}</span> </td>
                                 <td>
                                     <div v-if="show()">
                                         <font-awesome-icon class="text-danger mr-2 action-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
-                                        <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link>
+                                        <router-link v-bind:to="'/edit/company' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link>
                                         <font-awesome-icon class="text-success ml-2 action-icon" v-if="company.status === 'pending'" v-on:click="activateCompany(company.id)" icon="toggle-on"/>
                                     </div>
                                 </td>
@@ -169,7 +168,7 @@ export default {
         },
         filterCompany() {
             //console.log(this.searchText);
-            this.filteredCompany = this.companies.filter(el => el.name.includes(this.searchText));
+            this.filteredCompany = this.companies.filter(el => el.name.toLowerCase().includes(this.searchText.toLowerCase()));
             //console.log(this.filteredCompany);
         },
         removeCompany(id) {
@@ -182,14 +181,15 @@ export default {
             this.displayCompany = company;
             console.log(company);
         },
-        filteredCompanies(){
-            
+        filterCompanies(e){
+            e.preventDefault();
+            this.filterTable({selectedVal: this.searchText, title:'name'});
         }
     }
 }
 </script>
 
-<style scoped>
+<style>
     .auto-complete{
         width: 92%;
         z-index: 1000;
@@ -197,7 +197,7 @@ export default {
     }
 
     .action-icon{
-        cursor: default;
+        cursor: pointer;
     }
 
     .auto-complete:hover{
@@ -208,8 +208,13 @@ export default {
         background: #f0f0f0;
     }
 
+    .auto-complete > div{
+        width: 100%;
+    }
+
     .search-input:enabled + div {
         display: block;
+        width: 90%;
     }
 
     .table-holder{
@@ -218,7 +223,7 @@ export default {
 
     tr{
         max-height: 50px !important;
-        cursor: pointer;
+        cursor: default;
     }
 
     .modal-dialog{

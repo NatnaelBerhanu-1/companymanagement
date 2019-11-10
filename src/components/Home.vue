@@ -1,9 +1,22 @@
 <template>
     <div class="home">
-        <div class="container-fluid d-flex flex-column align-items-center justify-content-center">
-            <h1>Welcome to Company management system</h1><br>
-            <button class="btn btn-outline-warning text-white" @click="login">Login</button>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 banner-left">
+                    <div>
+                        <h1 class="text-secondary">Welcome to Company management system</h1><br>
+                        <button class="btn btn-warning text-white" @click="login">Login</button>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <img src="../assets/undraw_file_searching_duff.svg" class="banner-img" alt="bannner image">
+                </div>
+            </div>
+            
+        
         </div>
+        
     </div>
   
 </template>
@@ -21,23 +34,36 @@ export default {
 <style scoped>
     .home{
         width: 100%;
-        height: 100vh;
-        background: #0099ff;
-    }
-    h1{
-        color: #ffffff;
+        min-height: 100vh;
+        background: #f8f8f8;
     }
 
     .btn{
-        width: 250px;
-        padding: 10px;
-        border-radius: 50px;
-        font-weight: bold;
+        border-radius: 20px;
+        width: 200px;
+        height: 40px;
         font-size: 18px;
+        font-weight: 500;
     }
 
-    .container-fluid{
-        position: absolute;
-        top: 200px;
+    .container{
+        height: 100vh;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
     }
+
+    .banner-left{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .banner-left>div{
+    }
+
+    .banner-img{
+        width: 400px;
+    }
+
 </style>
