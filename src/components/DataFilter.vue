@@ -3,7 +3,8 @@
         <div class="dropdown">
             <select name="" id="" class="form-control" v-on:change="filter" v-model="selectedVal" required>
                 <option >{{ 'filter by ' + this.title }}</option>
-                <option v-for="company in companies" v-bind:value="(title === 'name') ? company.name: (title === 'services') ? company.services: company.city" v-bind:key="company.id">{{ (title === 'name') ? company.name: (title === 'services') ? company.services: company.city }}</option>
+                <option v-for="name in companies" v-bind:value="name.name" v-bind:key="name.id">{{ name.name }}</option>
+                <!-- <option v-for="company in companies" v-bind:value="(title === 'name') ? company.name: (title === 'services') ? company.services: (title === 'city') ? company.city: company.status" v-bind:key="company.id">{{ (title === 'name') ? company.name: (title === 'services') ? company.services: company.city }}</option> -->
             </select>
         </div>
   </div>

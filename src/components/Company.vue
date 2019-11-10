@@ -1,69 +1,94 @@
 <template>
   <div class="container mt-4">
-      <div class="table-holder bg-white shadow-sm p-3">
-            <h3 class="mb-4">Company List</h3>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <input v-on:input="filterCompany" v-on:focus="removeFilter" v-model="searchText" type="text" class="form-control search-input" placeholder="search by name . . . .">
-                    <div class="auto-complete position-absolute bg-white">
-                        <div v-for="company in filteredCompany" v-on:click="filterTable(newVal = {selectedVal: company.name, title:'name'})" v-bind:key="company.id" class="pl-2 p-1 rounded-bottom  border-right border-left border-bottom">{{company.name}}</div>
+
+      <div class="row bg-white shadow-sm p-3">
+          <h3 class="mb-4 col-md-12">Company List</h3>
+          <div class="col-md-3">
+              <div class="filter-holder mt-3">
+                    <p class="text-primary remove-filter" v-on:click="removeFilter"><strong><u> reset filter</u></strong></p>
+                    <DataFilter v-bind:title="'name'" v-on:filter="filterTable" v-bind:companies="names"/>
+                    <DataFilter v-bind:title="'city'" v-on:filter="filterTable" v-bind:companies="city"/>
+                    <DataFilter v-bind:title="'services'" v-on:filter="filterTable" v-bind:companies="services"/>
+                    <DataFilter v-bind:title="'status'" v-on:filter="filterTable" v-bind:companies="status"/>
+              </div>
+          </div>
+          <div class="col-md-9">
+                <div class="table-holder">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <input v-on:input="filterCompany" v-on:focus="removeFilter" v-model="searchText" type="text" class="form-control search-input" placeholder="search by name . . . .">
+                            <div class="auto-complete position-absolute bg-white">
+                                <div v-for="company in filteredCompany" v-on:click="filterTable(newVal = {selectedVal: company.name, title:'name'})" v-bind:key="company.id" class="pl-2 p-1 rounded-bottom  border-right border-left border-bottom">{{company.name}}</div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <table class="table table-striped table-bordered table-responsive-xl">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Company Name</th>
+                                <th>City</th>
+                                <th>Services</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="company in companies" v-bind:key="company.id" @click="rowClicked(company)" data-toggle="modal" data-target="#exampleModalLong">
+                                <th scope="row">{{ company.id }}</th>
+                                <td>{{ company.name }}</td>
+                                <td>{{ company.city }}</td>
+                                <td>{{ company.services.slice(0, 25) }}</td>
+                                <td v-bind:class="company.status === 'pending' ? 'badge-warning' : 'badge-success'" class="badge p-1 ml-3 mt-3">{{ company.status }}</td>
+                                <td>
+                                    <div v-if="show()">
+                                        <font-awesome-icon class="text-danger mr-2 action-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
+                                        <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link>
+                                        <font-awesome-icon class="text-success ml-2 action-icon" v-if="company.status === 'pending'" v-on:click="activateCompany(company.id)" icon="toggle-on"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+          </div>
+      </div>
+
+      
+
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <h3 class="text-primary col-md-12">{{displayCompany.name}}</h3>
+                    <div class="col-md-6">
+                        <strong> serivces</strong><br/>{{displayCompany.services}}<br/>
+                        <strong> ketema</strong><br/>{{displayCompany.kifle_ketema}}<br/>
+                        <strong> city</strong><br/>{{displayCompany.city}}<br/>
+                        <strong> sefer</strong><br/>{{displayCompany.sefer}}<br/>
+                        <strong> kebele</strong><br/>{{displayCompany.kebele}}<br/>
+                    </div>
+                    <div class="col-md-6">
+                        <strong> direction</strong> <br/>{{displayCompany.direction}}<br/>
+                        <strong> houseNum </strong> <br/>{{displayCompany.house_num}}<br/>
+                        <strong> phoneNum </strong><br/>{{displayCompany.phone_num}}<br/>
+                        <strong> pobox </strong><br/>{{displayCompany.pobox}}<br/>
                     </div>
                     
                 </div>
-                
             </div>
-            
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Company Name</th>
-                        <th>City</th>
-                        <th>Services</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <b> #</b>
-                        </td>
-                        <td>
-                            <DataFilter v-bind:title="'name'" v-on:filter="filterTable" v-bind:companies="companies"/>
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-                            <DataFilter v-bind:title="'city'" v-on:filter="filterTable" v-bind:companies="companies"/>
-                        </td>
-                        <td>
-                            <DataFilter v-bind:title="'services'" v-on:filter="filterTable" v-bind:companies="companies"/>
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-primary" v-on:click="removeFilter">reset filter</button>
-                        </td>
-                        
-                    </tr>
-                    <tr v-for="company in companies" v-bind:key="company.id">
-                    <th scope="row">1</th>
-                    <td>{{ company.name }}</td>
-                    <td>{{ company.city }}</td>
-                    <td>{{ company.services }}</td>
-                    <td v-bind:class="company.status === 'pending' ? 'badge-warning' : 'badge-success'" class="badge p-1 ml-3 mt-3">{{ company.status }}</td>
-                    <td>
-                        <div v-if="show()">
-                            <font-awesome-icon class="text-danger mr-4 action-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
-                            <router-link v-bind:to="'/edit/' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link>
-                            <font-awesome-icon class="text-success ml-4 action-icon" v-if="company.status === 'pending'" v-on:click="activateCompany(company.id)" icon="toggle-on"/>
-                        </div>
-                    </td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
         </div>
   </div>
+
 </template>
 
 <script>
@@ -79,10 +104,53 @@ export default {
     props: {
         companies: Array,
     },
+    computed: {
+        names: function() {
+            var data = [];
+            var uniqueData = [];
+            this.companies.filter(function(item, pos){
+                if(data.indexOf(item.name) === -1){
+                    data.push(item.name);
+                    uniqueData.push({name:item.name.slice(0, 25), id:item.id});
+                }
+            });
+            var ids = null;
+            return uniqueData;
+        },
+        services: function(){
+            var data = [];
+            var uniqueData = [];
+            this.companies.filter(function(item, pos){
+                if(data.indexOf(item.services) === -1){
+                    data.push(item.services);
+                    uniqueData.push({name:item.services.slice(0, 25), id:item.id});
+                }
+            });
+            var ids = null;
+            return uniqueData;
+        },
+        city: function(){
+            var data = [];
+            var uniqueData = [];
+            this.companies.filter(function(item, pos){
+                if(data.indexOf(item.city) === -1){
+                    data.push(item.city);
+                    uniqueData.push({name:item.city.slice(0,25), id:item.id});
+                }
+            });
+            var ids = null;
+            return uniqueData;
+        },
+        status: function(){
+            return [{name: 'active', id:1}, {name: 'pending', id: 2}]
+        }
+    },
     data() {
         return {
+            row: 0,
             searchText: '',
-            filteredCompany: []
+            filteredCompany: [],
+            displayCompany:{}
         }
     },
     methods: {
@@ -109,6 +177,13 @@ export default {
         },
         activateCompany(id) {
             this.$emit('activate-company', id);
+        },
+        rowClicked(company){
+            this.displayCompany = company;
+            console.log(company);
+        },
+        filteredCompanies(){
+            
         }
     }
 }
@@ -122,7 +197,7 @@ export default {
     }
 
     .action-icon{
-        cursor: pointer;
+        cursor: default;
     }
 
     .auto-complete:hover{
@@ -143,6 +218,27 @@ export default {
 
     tr{
         max-height: 50px !important;
+        cursor: pointer;
+    }
+
+    .modal-dialog{
+        width: 700px;
+    }
+
+
+    .filter-holder *{
+        margin-bottom: 15px;
+    }
+
+    .remove-filter{
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px){
+        .modal-dialog{
+            width: 450px;
+            margin: auto;
+        }
     }
 
 </style>

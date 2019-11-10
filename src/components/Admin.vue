@@ -27,11 +27,13 @@ export default {
         filterTable(newVal) {
             console.log(newVal);
             if(newVal.title === "name"){
-                this.companies = this.companies.filter(el => el.name == newVal.selectedVal);
+                this.companies = this.companies.filter(el => el.name.includes(newVal.selectedVal));
             }else if(newVal.title === "city"){
-                this.companies = this.companies.filter(el => el.city == newVal.selectedVal);
+                this.companies = this.companies.filter(el => el.city.includes(newVal.selectedVal));
             }else if(newVal.title === "services"){
-                this.companies = this.companies.filter(el => el.services == newVal.selectedVal);                
+                this.companies = this.companies.filter(el => el.services.includes(newVal.selectedVal));                
+            }else if(newVal.title === "status"){
+                this.companies = this.companies.filter(el => el.status == newVal.selectedVal);                
             }
         },
         resetFilter() {
