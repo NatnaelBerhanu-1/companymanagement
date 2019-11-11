@@ -37,7 +37,7 @@
                 <span v-bind:class="user.role === 'admin' ? 'badge-primary' : 'badge-warning'" class="badge">{{ user.role }}</span>              
               </td>
               <td>
-                <router-link v-bind:to="'/edit/user/'+ user.id"><font-awesome-icon class="text-primary ml-2 action-icon" icon="file"/></router-link> 
+                <router-link v-bind:to="'/edit/user/'+ user.id"><font-awesome-icon class="text-primary ml-2 action-icon" icon="pencil-alt"/></router-link> 
               </td>
             </tr>
           </tbody>

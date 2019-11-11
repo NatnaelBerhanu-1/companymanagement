@@ -16,7 +16,7 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <form @submit="filterCompanies">
-                                <input v-on:input="filterCompany" v-on:focus="removeFilter" v-model="searchText" type="text" class="form-control search-input" placeholder="search by name . . . .">
+                                <input v-on:input="filterCompany" v-on:focusout="hideAutoComplete" v-on:focus="removeFilter" v-model="searchText" type="text" class="form-control search-input" placeholder="search by name . . . .">
                                 <div class="auto-complete position-absolute bg-white">
                                     <div v-for="company in filteredCompany" v-on:click="filterTable(newVal = {selectedVal: company.name, title:'name'})" v-bind:key="company.id" class="pl-2 p-1 rounded-bottom  border-right border-left border-bottom">{{company.name}}</div>
                                 </div>
@@ -45,7 +45,7 @@
                                 <td>
                                     <div v-if="show()">
                                         <font-awesome-icon class="text-danger mr-2 action-icon" v-on:click="removeCompany(company.id)" icon="trash"/>
-                                        <router-link v-bind:to="'/edit/company' + company.id"><font-awesome-icon class="text-primary action-icon" icon="file"/></router-link>
+                                        <router-link v-bind:to="'/edit/company/' + company.id"><font-awesome-icon class="text-primary action-icon" icon="pencil-alt"/></router-link>
                                         <font-awesome-icon class="text-success ml-2 action-icon" v-if="company.status === 'pending'" v-on:click="activateCompany(company.id)" icon="toggle-on"/>
                                     </div>
                                 </td>
@@ -62,12 +62,13 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
+                    <h2 class="modal-title text-white">{{displayCompany.name}}</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true" class="text-white">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body row">
-                    <h3 class="text-primary col-md-12">{{displayCompany.name}}</h3>
+                    <h3 class="text-primary col-md-12"></h3>
                     <div class="col-md-6">
                         <strong> serivces</strong><br/>{{displayCompany.services}}<br/>
                         <strong> ketema</strong><br/>{{displayCompany.kifle_ketema}}<br/>
@@ -80,6 +81,8 @@
                         <strong> houseNum </strong> <br/>{{displayCompany.house_num}}<br/>
                         <strong> phoneNum </strong><br/>{{displayCompany.phone_num}}<br/>
                         <strong> pobox </strong><br/>{{displayCompany.pobox}}<br/>
+                        <strong> status </strong><br>
+                        <span  v-bind:class="displayCompany.status === 'pending' ? 'badge-warning' : 'badge-success'" class="badge">{{ displayCompany.status }}</span>
                     </div>
                     
                 </div>
@@ -153,6 +156,10 @@ export default {
         }
     },
     methods: {
+        hideAutoComplete(){
+            console.log("focus lost");
+            this.filteredCompany = [];
+        },
         show() {
             console.log(window.localStorage.getItem('role'));
             return window.localStorage.getItem('role') === 'admin';
@@ -237,6 +244,12 @@ export default {
 
     .remove-filter{
         cursor: pointer;
+    }
+    
+    .modal-header{
+        border-bottom: none!important;
+        background: url('../assets/wave.svg') no-repeat;
+        background-size: cover;
     }
 
     @media only screen and (max-width: 700px){

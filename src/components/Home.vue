@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div class="container">
+        <div class="container main">
             <div class="row">
                 <div class="col-md-6 banner-left">
                     <div>
@@ -13,12 +13,8 @@
                     <img src="../assets/undraw_file_searching_duff.svg" class="banner-img" alt="bannner image">
                 </div>
             </div>
-            
-        
         </div>
-        
     </div>
-  
 </template>
 
 <script>
