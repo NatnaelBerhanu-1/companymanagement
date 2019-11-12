@@ -2,16 +2,16 @@
   <div class="container mt-4">
       <div class="row bg-white shadow-sm p-3">
           <h3 class="mb-4 col-md-12">Company List</h3>
-          <div class="col-md-3">
-              <div class="filter-holder mt-3">
-                    <p class="text-primary remove-filter" v-on:click="removeFilter"><strong><u> reset filter</u></strong></p>
-                    <DataFilter v-bind:title="'name'" v-on:filter="filterTable" v-bind:companies="names"/>
-                    <DataFilter v-bind:title="'city'" v-on:filter="filterTable" v-bind:companies="city"/>
-                    <DataFilter v-bind:title="'services'" v-on:filter="filterTable" v-bind:companies="services"/>
-                    <DataFilter v-bind:title="'status'" v-on:filter="filterTable" v-bind:companies="status"/>
+          <div class="col-md-4">
+              <p class="text-primary remove-filter" v-on:click="removeFilter"><strong><u> reset filter</u></strong></p>
+              <div class="filter-holder mt-3 row">
+                    <DataFilter class="col-md-4" v-bind:title="'name'" v-on:filter="filterTable" v-bind:companies="names"/>
+                    <DataFilter class="col-md-4" v-bind:title="'city'" v-on:filter="filterTable" v-bind:companies="city"/>
+                    <DataFilter class="col-md-4" v-bind:title="'services'" v-on:filter="filterTable" v-bind:companies="services"/>
+                    <!-- <DataFilter class="col-md-3" v-bind:title="'status'" v-on:filter="filterTable" v-bind:companies="status"/> -->
               </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-8">
                 <div class="table-holder">
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="company in companies" v-bind:key="company.id" @click="rowClicked(company)" data-toggle="modal" data-target="#exampleModalLong">
+                            <tr v-for="company in filteredCompanies" v-bind:key="company.id" @click="rowClicked(company)" data-toggle="modal" data-target="#exampleModalLong">
                                 <th scope="row">{{ company.id }}</th>
                                 <td>{{ company.name }}</td>
                                 <td>{{ company.city }}</td>
@@ -105,6 +105,7 @@ export default {
     },
     props: {
         companies: Array,
+        filteredCompanies: Array
     },
     computed: {
         names: function() {

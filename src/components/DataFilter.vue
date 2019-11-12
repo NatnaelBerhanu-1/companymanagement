@@ -1,11 +1,17 @@
 <template>
   <div class="">
         <div class="dropdown">
-            <select name="" id="" class="form-control" v-on:change="filter" v-model="selectedVal" required>
+            <!-- <select name="" id="" class="form-control" v-on:change="filter" v-model="selectedVal" required>
                 <option >{{ 'filter by ' + this.title }}</option>
                 <option v-for="name in companies" v-bind:value="name.name" v-bind:key="name.id">{{ name.name }}</option>
-                <!-- <option v-for="company in companies" v-bind:value="(title === 'name') ? company.name: (title === 'services') ? company.services: (title === 'city') ? company.city: company.status" v-bind:key="company.id">{{ (title === 'name') ? company.name: (title === 'services') ? company.services: company.city }}</option> -->
-            </select>
+            </select> -->
+            <h4>{{ title }}</h4>
+            <div class="form-check">
+                <div class="m-0" v-for="name in companies" v-bind:key="name.id">
+                    <input class="form-check-input"  type="radio" v-bind:value="name.name" v-on:click="filterTable(name.name)" v-bind:name="'filter' + title" v-bind:id=" title + name.id"><label v-bind:for="title + name.id">{{name.name}}</label>
+                </div>
+
+            </div>
         </div>
   </div>
 </template>
@@ -15,7 +21,8 @@ export default {
     name: 'DataFilter',
     props: {
         title: String,
-        companies: Array
+        companies: Array,
+        filteredCompanies: Array
     },
     data() {
         return {
@@ -23,6 +30,10 @@ export default {
         }
     },
     methods: {
+        filterTable(name){
+            this.selectedVal = name;
+            this.filter();
+        },
         filter() {
             const newVal = {
                 selectedVal: this.selectedVal,
@@ -33,6 +44,7 @@ export default {
             this.$emit('filter', newVal);
         }
     }
+    
 }
 </script>
 
