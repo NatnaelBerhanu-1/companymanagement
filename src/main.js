@@ -10,6 +10,9 @@ import AddCompany from './components/AddCompany.vue';
 import AddUser from './components/AddUser.vue';
 import Home from './components/Home.vue';
 import User from './components/Users.vue';
+import bankEvent from './components/bankEvent.vue';
+import movieEvent from './components/movieEvent.vue';
+import schoolEvent from './components/schoolEvent.vue';
 import fontawesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
@@ -31,7 +34,10 @@ const routes = [
   {path: '/add/user', component: AddUser},
   {path: '/user', component: User},
   {path: '/edit/company/:id', component: EditCompany},
-  {path: '/edit/user/:id', component: EditUser}
+  {path: '/edit/user/:id', component: EditUser},
+  {path: '/bankEvent', component: bankEvent},
+  {path: '/movieEvent', component: movieEvent},
+  {path: '/schoolevent', component: schoolEvent}
 ]
 
 const router = new VueRouter({
@@ -41,7 +47,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/'];
-  const dispatcherPages = (['/admin', '/add/company'].includes(to.path));
+  const dispatcherPages = (['/admin', '/add/company','/bankEvent','/movieEvent','/schoolEvent'].includes(to.path));
   console.log(to.path, dispatcherPages);
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
