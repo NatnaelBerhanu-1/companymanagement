@@ -2,7 +2,7 @@
 <div class="container-fluid">
       <Header v-bind:add_link="'/add/company'"/>
       <div class="container bg-white p-3 mb-5 shadow bank-event">
-          <h3 class="pt-3">Movie Event</h3>
+          <h5 class="pt-3">Movie Event</h5>
           <table class="table table-striped table-bordered table-responsive-xl">
               
               <tbody>
