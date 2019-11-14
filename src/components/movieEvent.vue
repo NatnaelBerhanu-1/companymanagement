@@ -4,30 +4,33 @@
       <div class="container bg-white p-3 mb-5 shadow bank-event">
           <h3 class="pt-3">Movie Event</h3>
           <table class="table table-striped table-bordered table-responsive-xl">
-              <thead>
-                  <tr>
-                      <th scope="col">Cinema</th>
-                      <th scope="col">Title</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Time</th>
-                     
-                  </tr>
-
-              </thead>
+              
               <tbody>
                   <tr>
-                      <td>Edenamall</td>
-                      <td>Avengers Endgame</td>
-                      <td>06/12/2019</td>
-                      <td>9:00pm</td>
-                     
+                      <th rowspan="2" class="pt-5 pl-4">Ednmal</th>
+                      <td>12/04/2021</td>
+                      <td>12/04/2021</td>
+                      <td>12/04/2021</td>
+                      <td>12/04/2021</td> 
                   </tr>
                   <tr>
-                      <td>Century</td>
-                      <td>Shaft</td>
-                      <td>21/11/2019</td>
-                      <td>9:00pm</td>
-                     
+                      <td>2:00am<br/>The lion king</td>
+                      <td>4:00am<br/>The Avengers Endgame</td>
+                      <td>6:00am<br/>The Shaft</td>
+                      <td>10:00am<br/>The Hacker</td>
+                  </tr>
+                  <tr>
+                      <th rowspan="2" class="pt-5 pl-4">Century</th>
+                      <td>12/04/2021</td>
+                      <td>12/04/2021</td>
+                      <td>12/04/2021</td>
+                      <td>12/04/2021</td> 
+                  </tr>
+                  <tr>
+                      <td>2:00am<br/>The invisible</td>
+                      <td>4:00am<br/>The Sarahan Deset</td>
+                      <td>6:00am<br/> Spider man far from home</td>
+                      <td>10:00am<br/>How to be Single</td>
                   </tr>
               </tbody>
           </table>
